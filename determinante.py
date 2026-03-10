@@ -53,13 +53,3 @@ class Determinante:
             det += signo * matriz_actual[0][j] * cofactor
 
         return det
-
-# Ejemplo de ejecución
-if __name__ == "__main__":
-    datos = [
-        [1, 2, 3],
-        [4, 5, 6]
-    ]
-
-    obj_matriz = Determinante(datos)
-    print(f"El determinante de la matriz es: {obj_matriz.calcular()}")
