@@ -1,4 +1,4 @@
-from determinante import  Determinante
+from determinante import Determinante
 
 class Recta(Determinante):
     def __init__(self, p1, p2):
@@ -90,5 +90,4 @@ if __name__ == '__main__':
     punto2 = (3, -2)
     obj_Recta = Recta(punto1, punto2)
 
-    # Imprime la ecuación formateada automáticamente
     print(obj_Recta)
