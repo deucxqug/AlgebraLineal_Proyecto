@@ -76,7 +76,7 @@ class Determinante:
         # Control de errores por precisión numérica: Si el determinante es muy pequeño, se considera como cero
             tolerancia = 1e-9
             if abs(det) < tolerancia:
-            det = 0.0
+                det = 0.0
 
             return float(det)
 
