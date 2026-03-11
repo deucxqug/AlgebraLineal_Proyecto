@@ -1,68 +1,103 @@
 # Clase para calcular el determinante de una matriz cuadrada utilizando la expansión por cofactores
 class Determinante:
-    # Inicialización de la clase con la matriz a calcular con control de errores de input
-    def __init__(self, matriz):
-        if not matriz or not isinstance(matriz, list):
-            raise ValueError("La entrada debe ser una lista de listas.")
+    def __init__(self, matriz: list):
+        try:
+            if not matriz or not isinstance(matriz, list):
+                raise TypeError("La entrada debe ser una lista de listas.")
 
-        if not all(isinstance(fila, list) for fila in matriz):
-            raise ValueError("Formato incorrecto: La matriz contiene elementos que no son filas")
-        
-        self.dimension = len(matriz)
-        if not self._es_cuadrada(matriz):
-            raise ValueError("La matriz debe ser cuadrada (nxn)")
-        self.matriz = matriz
+            self.dimension = len(matriz)
 
-    # Validacion de que la matriz sea cuadrada
-    def _es_cuadrada(self, matriz):
-        n_filas = len(matriz)
-        return  all(len(fila) == self.dimension for fila in matriz)
+
+            for fila in matriz:
+                if not isinstance(fila, list or tuple):
+                    raise TypeError("Cada fila de la matriz debe ser una lista o tupla.")
+                if len(fila) != self.dimension:
+                    raise ValueError("La matriz debe ser cuadrada (nxn).")
+                for valor in fila:
+                    if not isinstance(valor, (int, float)):
+                        raise TypeError(f"El elemento '{valor}' es inválido. La matriz solo admite int o float.")
+
+            self.matriz = matriz
+
+        except (TypeError, ValueError) as e:
+            print(f"[Advertencia]: En constructor Determinante: {e}")
+            raise
+        except Exception as e:
+            print(f"[Advertencia]: Error inesperado en la inicialización: {e}")
+            raise
+
+    def _es_cuadrada(self, matriz: list) -> bool:
+        try:
+            n_filas = len(matriz)
+            return all(len(fila) == self.dimension for fila in matriz)
+        except Exception as e:
+            print(f"[Advertencia]: Al verificar dimensión cuadrada: {e}")
+            raise
 
     # Genera la submatriz eliminando la fila y columna indicadas.
-    def _obtener_menor(self, matriz, fila, columna):
+    def _obtener_menor(self, matriz: list, fila: int, columna: int) -> list:
         '''
         Genera la submatriz eliminando la fila y columna indicadas.
-        :param matriz: matriz original
-        :param fila: fila a ignorar
-        :param columna: columna a ignorar
-        :return: La submatriz eliminando la fila y columna
         '''
-        return [
-            [matriz[i][j] for j in range(len(matriz[i])) if j != columna]
-            for i in range(len(matriz)) if i != fila
-                ]
+        try:
+            return [
+                [matriz[i][j] for j in range(len(matriz[i])) if j != columna]
+                for i in range(len(matriz)) if i != fila
+            ]
+        except Exception as e:
+            print(f"[Advertencia]: Al generar la submatriz (menor): {e}")
+            raise
 
     # Calculo del determinante utilizando la expansión por cofactores
-    def calcular(self, matriz_actual=None):
+    def calcular(self, matriz_actual: list = None) -> float:
         '''
         Calcula el determinante de la matriz actual
-        :param matriz_actual:
-        :return: Un numero flotante que es el determinante
         '''
-        if matriz_actual is None:
-            matriz_actual = self.matriz
+        try:
+            if matriz_actual is None:
+                matriz_actual = self.matriz
 
-        n = len(matriz_actual)
+            n = len(matriz_actual)
 
-        # Casos base
-        if n == 1: # Matriz de 1x1
-            return matriz_actual[0][0]
-        if n == 2: # Matriz de 2x2
-            return (matriz_actual[0][0] * matriz_actual[1][1] -
-                    matriz_actual[0][1] * matriz_actual[1][0])
+            # Casos base
+            if n == 1:
+                return float(matriz_actual[0][0])
+            if n == 2:
+                return float(matriz_actual[0][0] * matriz_actual[1][1] -
+                             matriz_actual[0][1] * matriz_actual[1][0])
 
-        det = 0
-        # Calculo de la matriz por la primera fila
-        for j in range(n):
-            # Calculo recursivo del determinante
-            signo = (-1) ** j # Calculo del signo
-            # Calculo del cofactor
-            cofactor = self.calcular(self._obtener_menor(matriz_actual, 0, j))
-            det += signo * matriz_actual[0][j] * cofactor
+            det = 0.0
+            # Cálculo de la matriz por la primera fila
+            for j in range(n):
+                signo = (-1) ** j
+                cofactor = self.calcular(self._obtener_menor(matriz_actual, 0, j))
+                det += signo * matriz_actual[0][j] * cofactor
 
         # Control de errores por precisión numérica: Si el determinante es muy pequeño, se considera como cero
-        tolerancia = 1e-9
-        if abs(det) < tolerancia:
+            tolerancia = 1e-9
+            if abs(det) < tolerancia:
             det = 0.0
 
-        return det
+            return float(det)
+
+        except TypeError as e:
+            print(f"[Advertencia]: Tipos no validos durante el cálculo: {e}")
+            raise
+        except Exception as e:
+            print(f"[Advertencia]: Error inesperado durante el cálculo del determinante: {e}")
+            raise
+
+
+# Ejemplo de ejecución
+if __name__ == "__main__":
+    datos = [
+        [1, 1, 1],
+        [4, 5, 1],
+        [7, 8, 1],
+    ]
+
+    try:
+        obj_matriz = Determinante(datos)
+        print(f"El determinante de la matriz es: {obj_matriz.calcular()}")
+    except Exception as e:
+        print(f"Ejecución detenida por error de validación: {e}")
