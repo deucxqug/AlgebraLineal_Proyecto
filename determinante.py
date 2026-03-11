@@ -1,17 +1,24 @@
+# Clase para calcular el determinante de una matriz cuadrada utilizando la expansión por cofactores
 class Determinante:
+    # Inicialización de la clase con la matriz a calcular con control de errores de input
     def __init__(self, matriz):
         if not matriz or not isinstance(matriz, list):
             raise ValueError("La entrada debe ser una lista de listas.")
 
+        if not all(isinstance(fila, list) for fila in matriz):
+            raise ValueError("Formato incorrecto: La matriz contiene elementos que no son filas")
+        
         self.dimension = len(matriz)
         if not self._es_cuadrada(matriz):
             raise ValueError("La matriz debe ser cuadrada (nxn)")
         self.matriz = matriz
 
+    # Validacion de que la matriz sea cuadrada
     def _es_cuadrada(self, matriz):
         n_filas = len(matriz)
         return  all(len(fila) == self.dimension for fila in matriz)
 
+    # Genera la submatriz eliminando la fila y columna indicadas.
     def _obtener_menor(self, matriz, fila, columna):
         '''
         Genera la submatriz eliminando la fila y columna indicadas.
@@ -25,6 +32,7 @@ class Determinante:
             for i in range(len(matriz)) if i != fila
                 ]
 
+    # Calculo del determinante utilizando la expansión por cofactores
     def calcular(self, matriz_actual=None):
         '''
         Calcula el determinante de la matriz actual
@@ -51,5 +59,10 @@ class Determinante:
             # Calculo del cofactor
             cofactor = self.calcular(self._obtener_menor(matriz_actual, 0, j))
             det += signo * matriz_actual[0][j] * cofactor
+
+        # Control de errores por precisión numérica: Si el determinante es muy pequeño, se considera como cero
+        tolerancia = 1e-9
+        if abs(det) < tolerancia:
+            det = 0.0
 
         return det
