@@ -25,6 +25,14 @@ class Colinealidad(Determinante):
         det = self.calcular()
         return abs(det) < 1e-9 # Consideramos el determinante como cero si es muy pequeño
     
+
+ 
+    def area_triangulo(self):
+        det = self.calcular()
+        area = abs(det) / 2
+        return area
+    
+
 if __name__ == '__main__':
     punto1 = (1, 2)
     punto2 = (2, 5)
@@ -36,3 +44,7 @@ if __name__ == '__main__':
         print("Los puntos son colineales.")
     else:
         print("Los puntos no son colineales.")
+
+ 
+    area = obj_Colinealidad.area_triangulo()
+    print(f"Área del triángulo formado por los puntos: {area}")
