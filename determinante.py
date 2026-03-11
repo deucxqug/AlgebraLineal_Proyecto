@@ -77,11 +77,10 @@ class Determinante:
                 det += signo * matriz_actual[0][j] * cofactor
 
         # Control de errores por precisión numérica: Si el determinante es muy pequeño, se considera como cero
-            tolerancia = 1e-9
-            if abs(det) < tolerancia:
+            if abs(det) < 1e-9:
                 det = 0.0
 
-            return float(det)
+            return round(float(det), 6)
 
         except TypeError as e:
             print(f"[Advertencia]: Tipos no validos durante el cálculo: {e}")
@@ -94,9 +93,9 @@ class Determinante:
 # Ejemplo de ejecución
 if __name__ == "__main__":
     datos = [
-        [1, 1, 1],
-        [4, 5, 1],
-        [7, 8, 1],
+        [.12, .277, .121],
+        [.322, .212, .0021],
+        [.007, .008, .001],
     ]
 
     try:

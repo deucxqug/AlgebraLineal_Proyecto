@@ -21,9 +21,12 @@ class Cramer(Determinante):
             raise ValueError(f"Dimensión no permitida (n={self.n}). El sistema debe ser de 2x2 a 5x5.")
 
     def resolver(self):
+        '''
+        :return: Retorna las soluciones del sistema
+        '''
         try:
             det_A = Determinante(self.A).calcular()
-            if abs(det_A) < 1e-9:
+            if abs(det_A) == 0.0:
                 raise ValueError("[Advertencia] No hay solucion unica: "
                                  "El determinante de la matriz de coeficientes es 0.")
             else:
@@ -37,13 +40,13 @@ class Cramer(Determinante):
                     soluciones.append(det_Ai / det_A)
             return soluciones
         except Exception as e:
-            raise RuntimeError(f"Error inesperado en la solucion: {e}")
+            raise RuntimeError(f"{e}")
 
 if __name__ == '__main__':
     matriz_A = [
-        [1, 1, 1],
-        [4, 5, 1],
-        [2, 1, 3]
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
     ]
     vector_b = [6, 15, 11]
 
@@ -52,4 +55,4 @@ if __name__ == '__main__':
         resultado = sistema.resolver()
         print(f"Soluciones: {resultado}")
     except (ValueError, RuntimeError) as err:
-        print(f"Fallo en la ejecución: {err}")
+        print(f"{err}")
