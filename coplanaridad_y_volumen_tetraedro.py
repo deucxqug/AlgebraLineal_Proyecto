@@ -1,4 +1,4 @@
-from determinante import Determinante
+from determinante import Determinante 
 
 class Coplanaridad(Determinante):
     def __init__(self, p1, p2, p3, p4):
@@ -13,7 +13,7 @@ class Coplanaridad(Determinante):
                 [p4[0], p4[1], p4[2], 1]
             ]
 
-            super().__init__(matriz_base) # Inicializa la matriz en la clase base Determinante
+            super().__init__(matriz_base)
 
         except TypeError:
             print("[Advertencia]: Los puntos proporcionados no son iterables o carecen del formato correcto.")
@@ -25,7 +25,18 @@ class Coplanaridad(Determinante):
     def son_coplanarios(self):
         det = self.calcular()
         return abs(det) < 1e-9 # Consideramos el determinante como cero si es muy pequeño
-    
+
+   
+    def volumen_tetraedro(self):
+        try:
+            det = self.calcular()
+            volumen = abs(det) / 6
+            return volumen
+        except Exception as e:
+            print(f"[Advertencia]: Error al calcular el volumen: {e}")
+            return None
+
+
 if __name__ == '__main__':
     punto1 = (1, 2, 3)
     punto2 = (4, 5, 1)
@@ -38,3 +49,7 @@ if __name__ == '__main__':
         print("Los puntos son coplanares.")
     else:
         print("Los puntos no son coplanares.")
+
+    # calculo del volumen
+    volumen = obj_Coplanaridad.volumen_tetraedro()
+    print(f"El volumen del tetraedro es: {volumen}")
