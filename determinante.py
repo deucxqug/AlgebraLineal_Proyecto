@@ -1,30 +1,35 @@
 # Clase para calcular el determinante de una matriz cuadrada utilizando la expansión por cofactores
 class Determinante:
     def __init__(self, matriz: list):
-        try:
-            if not matriz or not isinstance(matriz, list):
-                raise TypeError("La entrada debe ser una lista de listas.")
+        if not matriz or not isinstance(matriz, list):
+            raise TypeError("La entrada debe ser una matriz numerica (lista de lista)")
 
-            self.dimension = len(matriz)
+        self.dimension = len(matriz)
 
+        for i, fila in enumerate(matriz):
+            if not isinstance(fila, (list, tuple)):
+                raise TypeError(f"La fila {i} debe ser lista o tupla.")
 
-            for fila in matriz:
-                if not isinstance(fila, list or tuple):
-                    raise TypeError("Cada fila de la matriz debe ser una lista o tupla.")
-                if len(fila) != self.dimension:
-                    raise ValueError("La matriz debe ser cuadrada (nxn).")
-                for valor in fila:
-                    if not isinstance(valor, (int, float)):
-                        raise TypeError(f"El elemento '{valor}' es inválido. La matriz solo admite int o float.")
+            if len(fila) != self.dimension:
+                raise ValueError(f"Fila {i} rompe la matriz cuadrada (esperado {self.dimension}).")
 
-            self.matriz = matriz
+            for j, valor in enumerate(fila):
 
-        except (TypeError, ValueError) as e:
-            print(f"[Advertencia]: En constructor Determinante: {e}")
-            raise
-        except Exception as e:
-            print(f"[Advertencia]: Error inesperado en la inicialización: {e}")
-            raise
+                if valor is None:
+                    raise ValueError(f"[Error] La celda en la posición ({i}, {j}) está vacía (None).")
+
+                if str(valor).strip() == "":
+                    raise ValueError(f"[Error] La celda en la posición ({i}, {j}) contiene un texto vacío.")
+
+                    # VALIDACIÓN NO NUMÉRICA
+                if not isinstance(valor, (int, float)):
+                    raise TypeError(f"[Error] El valor '{valor}' en ({i}, {j}) no es un número.")
+
+        # Validación de filas repetidas
+        if len(set(tuple(f) for f in matriz)) < self.dimension:
+            print("[Aviso]: Filas repetidas detectadas. Determinante = 0.")
+
+        self.matriz = matriz
 
     def _es_cuadrada(self, matriz: list) -> bool:
         try:
@@ -100,4 +105,4 @@ if __name__ == "__main__":
         obj_matriz = Determinante(datos)
         print(f"El determinante de la matriz es: {obj_matriz.calcular()}")
     except Exception as e:
-        print(f"Ejecución detenida por error de validación: {e}")
+        print(f"[Ejecución detenida por error de validación]\n{e}")
