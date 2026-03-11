@@ -9,7 +9,7 @@ class Determinante:
 
 
             for fila in matriz:
-                if not isinstance(fila, list or tuple):
+                if not isinstance(fila, (list, tuple)): # Comprueba el tipo
                     raise TypeError("Cada fila de la matriz debe ser una lista o tupla.")
                 if len(fila) != self.dimension:
                     raise ValueError("La matriz debe ser cuadrada (nxn).")
@@ -26,32 +26,35 @@ class Determinante:
             print(f"[Advertencia]: Error inesperado en la inicialización: {e}")
             raise
 
-    def _es_cuadrada(self, matriz: list) -> bool:
-        try:
-            n_filas = len(matriz)
-            return all(len(fila) == self.dimension for fila in matriz)
-        except Exception as e:
-            print(f"[Advertencia]: Al verificar dimensión cuadrada: {e}")
-            raise
-
-    # Genera la submatriz eliminando la fila y columna indicadas.
-    def _obtener_menor(self, matriz: list, fila: int, columna: int) -> list:
+    @staticmethod
+    def _eliminar_columna(fila: list, columna: int) -> list:
         '''
-        Genera la submatriz eliminando la fila y columna indicadas.
-        '''
-        try:
-            return [
-                [matriz[i][j] for j in range(len(matriz[i])) if j != columna]
-                for i in range(len(matriz)) if i != fila
-            ]
-        except Exception as e:
-            print(f"[Advertencia]: Al generar la submatriz (menor): {e}")
-            raise
+        Elimina la columna de un renglon/fila
 
-    # Calculo del determinante utilizando la expansión por cofactores
+        :param fila: La fila que modificamos
+        :param columna: La columna que elimina
+        :return: Returna una lista con un elemento menos
+        '''
+        return [celda for j, celda in enumerate(fila) if j != columna]
+
+    def _obtener_menor(self, matriz: list, indice_fila: int, indice_columna: int) -> list:
+        '''
+        Construye la submatriz resultante de eliminar la i-ésima fila y la j-ésima columna.
+
+        :param matriz: Representa la matriz original de la que queremos encontrar sus menores
+        :param indice_fila: Índice de la fila que se debe excluir del resultado.
+        :param indice_columna: Índice de la columna que se debe excluir del resultado.
+        :return: Submatriz de dimensiones (n-1) x (n-1).
+        '''
+        return [
+            self._eliminar_columna(fila_actual, indice_columna)
+            for i, fila_actual in enumerate(matriz)
+            if i != indice_fila
+        ]
+
     def calcular(self, matriz_actual: list = None) -> float:
         '''
-        Calcula el determinante de la matriz actual
+        Calculo del determinante utilizando la expansión por cofactores
         '''
         try:
             if matriz_actual is None:
