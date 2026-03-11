@@ -63,7 +63,7 @@ class MenuPrincipal:
         # Botón para regresar al menu
         btn_regresar = tk.Button(
             nueva_ventana, 
-            text="← Regresar al Menú", 
+            text=" Regresar al Menú", 
             command=lambda: self.regresar(nueva_ventana),
             bg="#ecf0f1", pady=5
         )
@@ -78,3 +78,4 @@ if __name__ == "__main__":
     app = MenuPrincipal(root)
     root.mainloop()
     
+
