@@ -51,7 +51,7 @@ class Recta(Determinante):
             terminos = []
 
             for coef, var in zip(coeficientes, variables):
-                if abs(coef) < 1e-9: # Consideramos coeficientes muy pequeños como cero para evitar términos insignificantes
+                if coef == 0: # Si coeficiente es igual a cero no se agrega
                     continue
 
                 if isinstance(coef, float):

@@ -24,7 +24,7 @@ class Coplanaridad(Determinante):
 
     def son_coplanarios(self):
         det = self.calcular()
-        return abs(det) < 1e-9 # Consideramos el determinante como cero si es muy pequeño
+        return det == 0
 
    
     def volumen_tetraedro(self):

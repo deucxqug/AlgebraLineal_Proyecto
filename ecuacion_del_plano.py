@@ -23,7 +23,7 @@ class Plano(Determinante):
             print(f"[Advertencia]: {e}")
             raise
         except Exception as e:
-            print(f"[Advertencia]: Error inesperado durante la inicialización del plano: {e}")
+            print(f"[Advertencia]: Error inesperado durante la inicialización del plano - {e}")
             raise
 
     def obtener_coeficientes(self):
@@ -38,7 +38,7 @@ class Plano(Determinante):
             return tuple(coeficientes)
 
         except Exception as e:
-            print(f"[Advertencia]: Fallo al calcular los coeficientes mediante cofactores: {e}")
+            print(f"[Advertencia]: Fallo al calcular los coeficientes mediante cofactores - {e}")
             return None
 
     def __str__(self):
@@ -81,9 +81,9 @@ class Plano(Determinante):
             return "Error de formato en la representación del plano."
 
 if __name__ == '__main__':
-    punto1 = (2, 1, 1)
-    punto2 = (3, -2, 1)
-    punto3 = (5, 1, -4)
+    punto1 = (1, 0, 0)
+    punto2 = (0, 0, 1)
+    punto3 = (0, 0, 0)
 
     plano = Plano(punto1, punto2, punto3)
 

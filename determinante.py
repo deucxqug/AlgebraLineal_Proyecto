@@ -76,7 +76,7 @@ class Determinante:
                 cofactor = self.calcular(self._obtener_menor(matriz_actual, 0, j))
                 det += signo * matriz_actual[0][j] * cofactor
 
-        # Control de errores por precisión numérica: Si el determinante es muy pequeño, se considera como cero
+        # Si el determinante es muy pequeño, se considera como cero
             if abs(det) < 1e-9:
                 det = 0.0
 

@@ -22,11 +22,11 @@ class Cramer(Determinante):
 
     def resolver(self):
         '''
-        :return: Retorna las soluciones del sistema
+        :return: Regresa una lista con  las soluciones del sistema, ordendas como x1,x2,x3,...,xn
         '''
         try:
             det_A = Determinante(self.A).calcular()
-            if abs(det_A) == 0.0:
+            if det_A == 0.0:
                 raise ValueError("[Advertencia] No hay solucion unica: "
                                  "El determinante de la matriz de coeficientes es 0.")
             else:

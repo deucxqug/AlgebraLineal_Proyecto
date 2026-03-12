@@ -23,7 +23,7 @@ class Colinealidad(Determinante):
 
     def son_colineales(self):
         det = self.calcular()
-        return abs(det) < 1e-9 # Consideramos el determinante como cero si es muy pequeño
+        return det == 0 
     
 
  
@@ -35,16 +35,16 @@ class Colinealidad(Determinante):
 
 if __name__ == '__main__':
     punto1 = (1, 2)
-    punto2 = (2, 5)
-    punto3 = (3, 6)
+    punto2 = (3, 4)
+    punto3 = (5, 6)
 
-    obj_Colinealidad = Colinealidad(punto1, punto2, punto3)
+    obj_colinealidad = Colinealidad(punto1, punto2, punto3)
 
-    if obj_Colinealidad.son_colineales():
+    if obj_colinealidad.son_colineales():
         print("Los puntos son colineales.")
     else:
         print("Los puntos no son colineales.")
 
  
-    area = obj_Colinealidad.area_triangulo()
+    area = obj_colinealidad.area_triangulo()
     print(f"Área del triángulo formado por los puntos: {area}")
